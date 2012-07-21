@@ -36,4 +36,27 @@ class TopicTest < ActiveSupport::TestCase
     dining_topic = Fabricate(:dining)
     assert_not_nil dining_topic.to_json
   end
+
+  test 'update topic property attributes via JSON' do
+    billing_topic = Fabricate(:billing)
+    json = billing_topic.to_json
+    json.gsub!(/Billing Month/, "When")
+    
+    topic_hash = ActiveSupport::JSON.decode(json)
+    topic = Topic.find(billing_topic.id)
+    topic.update_attributes!(topic_hash)
+
+    assert_equal 3, topic.properties.length
+    assert_equal 'When', topic.properties[0].name
+  end
+
+  test 'update topic attributes via JSON' do
+    billing_topic = Fabricate(:billing)
+    json = billing_topic.to_json
+    json.gsub!(/Billing Statement/, 'Billing Notice')
+    topic_hash = ActiveSupport::JSON.decode(json)
+    topic = Topic.find(billing_topic.id)
+    topic.update_attributes!(topic_hash)
+    assert_equal 'Billing Notice', topic.name
+  end
 end

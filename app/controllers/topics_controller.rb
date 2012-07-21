@@ -2,16 +2,30 @@ class TopicsController < ApplicationController
   respond_to :json
 
   def index
-    respond_with Topic.all
+    @topics = Topic.all
+    respond_with @topics
   end
 
   def show
-    respond_with Topic.find(params[:id])
+    @topic = Topic.find(params[:id])
+    respond_with @topic
+  end
+
+  def create
+    @topic = Topic.new(params[:topic])
+    @topic.save!
+    respond_with @topic
+  end
+
+  def update
+    @topic = Topic.find(params[:id])
+    @topic.update_attributes!(params[:topic])
+    respond_with @topic
   end
 
   def destroy
-    schema = Topic.find(params[:id])
-    schema.destroy
+    topic = Topic.find(params[:id])
+    topic.destroy
     head :ok
   end
 end
