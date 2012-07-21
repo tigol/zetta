@@ -58,11 +58,23 @@ development:
 
     # Ensure all times are UTC in the app side. (default: false)
     # use_utc: false
+test:
+  sessions:
+    default:
+      database: tigol_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+  options:
 production:
   sessions:
     default:
       database: tigol_production
       hosts:
-        - localhost:27017
+        - staff.mongohq.com:10093
+      username: tigol
+      password: <%= ENV['MONGO_PRODUCTION_PASSWORD'] %>
       options:
         consistency: :strong
+  options:

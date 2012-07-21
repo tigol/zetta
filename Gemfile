@@ -23,7 +23,8 @@ end
 
 gem 'jquery-rails'
 gem 'mongoid', '~> 3.0.0.rc'
-gem "twitter-bootstrap-rails"
+gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
+gem 'fabrication'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
