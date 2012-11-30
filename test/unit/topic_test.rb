@@ -8,6 +8,8 @@ class TopicTest < ActiveSupport::TestCase
   test 'read topic fixture' do
     dining_topic = Fabricate(:dining)
     assert_equal 'Dining Everyday', dining_topic.name
+    assert_not_nil dining_topic.created_at
+    assert_not_nil dining_topic.updated_at
     assert_equal 2, dining_topic.properties.size
   end
 
@@ -29,6 +31,9 @@ class TopicTest < ActiveSupport::TestCase
     )
     count = Topic.count
     starbucks.save
+    assert_not_nil starbucks.code
+    assert_not_nil starbucks.created_at
+    assert_not_nil starbucks.updated_at
     assert_equal count + 1, Topic.count
   end
 
@@ -43,6 +48,8 @@ class TopicTest < ActiveSupport::TestCase
     json.gsub!(/Billing Month/, "When")
     
     topic_hash = ActiveSupport::JSON.decode(json)
+    topic_hash = HashWithIndifferentAccess.new(topic_hash)
+    assert_not_nil topic_hash[:properties]
     topic = Topic.find(billing_topic.id)
     topic.update_attributes!(topic_hash)
 
