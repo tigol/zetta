@@ -1,4 +1,4 @@
-require 'random_word_generator'
+require 'forgery'
 
 class Topic
   include Mongoid::Document
@@ -33,9 +33,11 @@ class Topic
 
   protected
   def generate_code
-    random_word = RandomWordGenerator.composed(2, 14, '_')
+    color = Forgery::Basic.color
+    street = Forgery::Address.street_name.split(" ").first
     time_stamp = Time.now.strftime("%Y%m%d_%H%M%S")
-    self.code = "#{random_word}_#{time_stamp}"
+    
+    self.code = [color, street, time_stamp].join("_").downcase
     logger.debug "generate #{self.code} for topic #{name}"
   end
 end
