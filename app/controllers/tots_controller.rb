@@ -2,6 +2,7 @@ class TotsController < ApplicationController
   before_filter :get_topic
   
   respond_to :json
+  respond_to :atom, :only => :index
 
   def index
     @tots = @topic.tots
