@@ -13,6 +13,10 @@ class TotTest < ActiveSupport::TestCase
       "amount" => 101.5
     })
     assert_equal count + 1, billing_tot.collection.find.count
+    assert_not_nil billing_tot
+    assert_not_nil billing_tot.id
+    
+    assert_equal 'IPTV', billing_tot[:billing_type]
 	end
 
   test 'all tots for a topic' do
@@ -21,6 +25,7 @@ class TotTest < ActiveSupport::TestCase
     billing_tot = billing_topic.new_tot
 
     count = billing_tot.collection.find.count
+    
     billing_tot.create({
       "billing_type" => "IPTV",
       "billing_month" => 10,
@@ -29,6 +34,6 @@ class TotTest < ActiveSupport::TestCase
     assert_equal count + 1, billing_tot.collection.find.count
 
     assert_not_nil billing_topic.code
-    assert_equal 1, billing_topic.tots.length
+    assert_equal count + 1, billing_topic.tots.length
   end
 end

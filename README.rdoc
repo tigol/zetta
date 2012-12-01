@@ -6,13 +6,27 @@ A Rails based app
 
 == Server API
 
-1. Create topic schema
+* Topic
+	* List all topics
+	<pre><code>
+	GET /topics.json
+	</code></pre>
+	* Retrieve a single topic
+	<pre><code>
+	GET /topics/{topic_id}.json
+	</code></pre>
 
-2. Create topic instance
+* Tot (a log item within a topic)
+	* List all tots belonging to a topic
+	<pre><code>
+	GET /topics/{topic_id}/tots.json
+	</code></pre>
+	* Retrieve a single tot
+	<pre><code>
+	GET /topics/{topic_id}/tots/{tot_id}.json
+	</code></pre>
 
-3. Retrieve topic instances
-
-4. Generate charting data
+* Topic schema (This will not be implemented in the initial version)
 
 == Setup
 

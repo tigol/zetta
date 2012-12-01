@@ -7,6 +7,8 @@ class Topic
   field :name, type: String
   field :code, type: String
 
+  validates_uniqueness_of :code
+
   embeds_many :properties
 
   before_create :generate_code
@@ -35,8 +37,8 @@ class Topic
   def generate_code
     color = Forgery::Basic.color
     street = Forgery::Address.street_name.split(" ").first
-    time_stamp = Time.now.strftime("%Y%m%d_%H%M%S")
-    
+    time_stamp = Time.now.strftime("%Y%m%d_%H%M%S%L")
+
     self.code = [color, street, time_stamp].join("_").downcase
     logger.debug "generate #{self.code} for topic #{name}"
   end

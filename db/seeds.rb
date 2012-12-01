@@ -6,6 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Fabricate(:dining)
+# load test fixtures for rake db:seed LOAD_FIXTURES=true
+if ENV['LOAD_FIXTURES']
+  puts "loading test fixtures..."
+  Fabricate(:dining)
+  Fabricate(:billing)
+  Fabricate(:nov_water_billing)
+  Fabricate(:dec_water_billing)
 
-Fabricate(:billing)
+  puts "loading fixtures completed."
+end

@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class TopicsControllerTest < ActionController::TestCase
+  test "get empty topic list" do
+    Topic.destroy_all
+    get :index, :format => :json
+    assert_response :success
+    topics = assigns(:topics)
+    assert_not_nil topics
+    assert_equal 0, topics.length
+  end
+
   test "get topic list" do
     Fabricate(:billing)
     get :index, :format => :json
