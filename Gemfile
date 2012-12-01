@@ -26,6 +26,7 @@ gem 'mongoid', '~> 3.0.0'
 gem 'anjlab-bootstrap-rails', '>= 2.2', :require => 'bootstrap-rails'
 gem 'fabrication'
 gem 'forgery', '0.5.0'
+gem 'jbuilder', '0.3.2'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
