@@ -7,7 +7,11 @@ class Topic
   field :name, type: String
   field :code, type: String
 
+  validates_presence_of :name
   validates_uniqueness_of :code
+  attr_readonly :code
+
+  before_destroy :destroy_tot_collection
 
   embeds_many :properties
 
@@ -33,7 +37,7 @@ class Topic
     tots
   end
 
-  protected
+  private
   def generate_code
     color = Forgery::Basic.color
     street = Forgery::Address.street_name.split(" ").first
@@ -41,5 +45,11 @@ class Topic
 
     self.code = [color, street, time_stamp].join("_").downcase
     logger.debug "generate #{self.code} for topic #{name}"
+  end
+
+  def destroy_tot_collection
+    session = Topic.mongo_session
+    collection = session[self.code]
+    collection.drop
   end
 end

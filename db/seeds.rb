@@ -11,8 +11,5 @@ if ENV['LOAD_FIXTURES']
   puts "loading test fixtures..."
   Fabricate(:dining)
   Fabricate(:billing)
-  Fabricate(:nov_water_billing)
-  Fabricate(:dec_water_billing)
-
   puts "loading fixtures completed."
 end

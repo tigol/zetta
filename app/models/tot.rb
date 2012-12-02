@@ -45,7 +45,7 @@ class Tot
   end
 
   def save!
-    logger.debug "save object with properties #{@properties}"
+    Rails.logger.debug "save object with properties #{@properties}"
     collection.find({'_id' => @id }).upsert(@properties.merge!({ 'updated_at' => Time.now }))
   end
 

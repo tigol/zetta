@@ -42,6 +42,7 @@ class TopicsControllerTest < ActionController::TestCase
     post :create, :format => :json, :topic => topic_hash
     assert_response :success
     assert_equal count + 1, Topic.count
+    assert_equal billing_topic.name, assigns(:topic).name
   end
 
   test "update topic with JSON" do

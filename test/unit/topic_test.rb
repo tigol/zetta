@@ -37,6 +37,34 @@ class TopicTest < ActiveSupport::TestCase
     assert_equal count + 1, Topic.count
   end
 
+  test 'create topic without name should fail' do
+    starbucks = Topic.new(
+      properties: [
+        Property.new(
+          name: 'People',
+          code: 'people',
+          datatype: 'Array'
+        )
+      ]
+    )
+    
+    assert_raise(Mongoid::Errors::Validations) do
+      starbucks.save!
+    end
+  end
+
+  test 'update topic code should fail' do
+    billing_topic = Fabricate(:billing)
+    topic = Topic.find(billing_topic.id)
+    old_code = topic.code
+    topic.code = 'new-code'
+    topic.save! 
+    assert_equal old_code, topic.code, "the change to the code attribute should be ignored"
+    assert_raise(Mongoid::Errors::ReadonlyAttribute) do
+      topic.update_attribute(:code, 'new-code')
+    end
+  end
+
   test 'topic to json' do
     dining_topic = Fabricate(:dining)
     assert_not_nil dining_topic.to_json
@@ -65,5 +93,18 @@ class TopicTest < ActiveSupport::TestCase
     topic = Topic.find(billing_topic.id)
     topic.update_attributes!(topic_hash)
     assert_equal 'Billing Notice', topic.name
+  end
+
+  test 'destroy a topic should destroy its tots collection' do
+    billing_topic = Fabricate(:billing)
+    session = billing_topic.mongo_session
+    assert collection_exist?(session, billing_topic.code)
+    billing_topic.destroy
+    assert !collection_exist?(session, billing_topic.code)
+  end
+
+  private 
+  def collection_exist?(session, collection_name) 
+    session.collection_names.include? collection_name
   end
 end
