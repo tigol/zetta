@@ -4,7 +4,7 @@ atom_feed do |feed|
 
   @tots.each do |tot|
     url = request.url.gsub(/tots\.atom/, "tots/#{tot['_id']}.json")
-    feed.entry(tot, {:id => tot['_id'], :url => url}) do |entry|
+    feed.entry(tot, {:id => url, :url => url}) do |entry|
       entry.title(tot['created_at'])
       entry.content(tot.to_s, :type => 'html')
 

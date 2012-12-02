@@ -3,6 +3,7 @@ require 'test_helper'
 class TopicsControllerTest < ActionController::TestCase
   test "get empty topic list" do
     Topic.destroy_all
+    assert_equal 0, Topic.count
     get :index, :format => :json
     assert_response :success
     topics = assigns(:topics)
@@ -54,5 +55,18 @@ class TopicsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal billing_topic.id, assigns(:topic).id
     assert_equal 'Billing Notice', assigns(:topic).name
+  end
+
+  test "destroy a topic" do
+    billing_topic = Fabricate(:billing)
+    count = Topic.count
+    delete :destroy, :id => billing_topic.id, :format => :json
+    assert_response :success
+    assert_equal count - 1, Topic.count
+  end
+
+  test "get a topic with invalid topic id" do
+    get :show, :id => "invalid_topic_id", :format => :json
+    assert_response :not_found
   end
 end

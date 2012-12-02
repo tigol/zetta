@@ -2,6 +2,7 @@ require 'test_helper'
 
 class TopicTest < ActiveSupport::TestCase
   test 'load all topics' do
+    dining_topic = Fabricate(:dining)
     assert Topic.all.length > 0
   end
 
@@ -95,12 +96,26 @@ class TopicTest < ActiveSupport::TestCase
     assert_equal 'Billing Notice', topic.name
   end
 
+  test 'destroy a topic' do
+    count = Topic.count
+    billing_topic = Fabricate(:billing)
+    assert_equal count + 1, Topic.count
+
+    billing_topic.destroy
+    assert_equal count, Topic.count    
+  end
+
   test 'destroy a topic should destroy its tots collection' do
     billing_topic = Fabricate(:billing)
     session = billing_topic.mongo_session
     assert collection_exist?(session, billing_topic.code)
     billing_topic.destroy
     assert !collection_exist?(session, billing_topic.code)
+  end
+
+  test "destroy all topics" do
+    Topic.destroy_all
+    assert_equal 0, Topic.count
   end
 
   private 

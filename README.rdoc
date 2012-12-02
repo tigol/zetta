@@ -7,24 +7,119 @@ A Rails based app
 == Server API
 
 * Topic
-	* List all topics
-	<pre><code>
+    * List all topics
+	
+	<code>
 	GET /topics.json
-	</code></pre>
-	* Retrieve a single topic
-	<pre><code>
-	GET /topics/{topic_id}.json
-	</code></pre>
+	</code>
 
-* Tot (a log item within a topic)
+	* Retrieve a single topic
+
+	<code>
+	GET /topics/{topic_id}.json
+	</code>
+
+    * Create a new topic
+    
+        * Client needs to specify the 'Content-Type' HTTP header with value 'application/json'
+        * The POST should be sent to /topics.json
+        * The HTTP request body needs to contain a JSON document with a JSON property called 'topic'
+        
+    <code>
+        Content-Type: 'application/json'
+        
+        POST /topics.json
+        
+        {
+          "topic": {
+            "name": "gas filling",
+            "properties": [
+              {
+                "name": "Location",
+                "code": "location",
+                "datatype": "string"
+              },
+              {
+                "name": "Cost",
+                "code": "cost",
+                "datatype": "decimal"
+              },
+              {
+                "name": "Gas Type",
+                "code": "gas_type",
+                "datatype": "enum"
+              },
+              {
+                "name": "Date",
+                "code": "date",
+                "datatype": "datetime"
+              }
+            ]
+          }
+        }
+    </code>
+    
+    * Update a topic
+    
+        * 'code' property is generated and assigned to a topic and cannot be updated
+        
+        * To update a topic, simply retrieve its JSON representation, and modify the corresponding value and send it back to server via PUT request with 'Content-Type' header set to 'application/json'
+        
+        * In the following example, the topic name is updated, and the Gas Type property is updated to be of 'string' type
+        
+    <code>
+        Content-Type: application/json
+        
+        PUT /topics/{topic_id}.json
+        
+        {
+          "topic": {
+            "name": "Gas Filling Updated",
+            "properties": [
+              {
+                "name": "Location",
+                "code": "location",
+                "datatype": "string"
+              },
+              {
+                "name": "Cost",
+                "code": "cost",
+                "datatype": "decimal"
+              },
+              {
+                "name": "Gas Type",
+                "code": "gas_type",
+                "datatype": "string"
+              },
+              {
+                "name": "Date",
+                "code": "date",
+                "datatype": "datetime"
+              }
+            ]
+          }
+        }
+    </code>
+    
+    * Delete a topic
+    
+    <code>
+        DELETE /topics/{topic_id}.json
+    </code>
+
+
+* Tot (a log entry for a topic)
 	* List all tots belonging to a topic
-	<pre><code>
+
+	<code>
 	GET /topics/{topic_id}/tots.json
-	</code></pre>
+	</code>
+
 	* Retrieve a single tot
-	<pre><code>
+
+	<code>
 	GET /topics/{topic_id}/tots/{tot_id}.json
-	</code></pre>
+	</code>
 
 * Topic schema (This will not be implemented in the initial version)
 

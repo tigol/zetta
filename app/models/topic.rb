@@ -11,11 +11,11 @@ class Topic
   validates_uniqueness_of :code
   attr_readonly :code
 
-  before_destroy :destroy_tot_collection
-
   embeds_many :properties
 
   before_create :generate_code
+
+  before_destroy :destroy_tot_collection
   
   def new_tot
     tot = Tot.new(self)
@@ -49,7 +49,16 @@ class Topic
 
   def destroy_tot_collection
     session = Topic.mongo_session
-    collection = session[self.code]
-    collection.drop
+    if collection_exist?(session, self.code)
+      collection = session[self.code]
+      successful = collection.drop
+      if !successful
+        raise RuntimeError, "Failed to drop tots collection for topic #{topic.id}"
+      end
+    end
+  end
+
+  def collection_exist?(session, collection_name) 
+    session.collection_names.include? collection_name
   end
 end

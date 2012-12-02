@@ -7,6 +7,8 @@ gem 'rails', '3.2.8'
 
 if RUBY_PLATFORM =~ /java/
   gem 'jruby-openssl'
+else
+  gem 'thin'
 end
 
 # Gems used only for assets and not required
@@ -28,6 +30,10 @@ gem 'fabrication'
 gem 'forgery', '0.5.0'
 gem 'mongoid_rails_migrations', '1.0.0'
 gem 'jbuilder', '0.9.0'
+
+group :development do
+  gem "debugger"
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

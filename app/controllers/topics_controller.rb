@@ -1,4 +1,6 @@
 class TopicsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, 
+    :if => Proc.new { |c| c.request.format == 'application/json' }
   respond_to :json
 
   def index
@@ -12,6 +14,7 @@ class TopicsController < ApplicationController
   end
 
   def create
+    logger.debug "create a topic #{params}"
     @topic = Topic.new(params[:topic])
     @topic.save!
     respond_with @topic
@@ -24,6 +27,7 @@ class TopicsController < ApplicationController
   end
 
   def destroy
+    logger.debug "destroy topic #{params[:id]}"
     topic = Topic.find(params[:id])
     topic.destroy
     head :ok
