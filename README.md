@@ -122,5 +122,13 @@ Tot stands for a log entry for a topic. It is called 'tot' because I cannot thin
 
 	GET /topics/{topic_id}/tots/{tot_id}.json
 
-### Topic schema
+### Topic template
 This will not be implemented in the initial version
+
+## Roadmap
+* Supports to define a simple template to describe a tot using something like Liquid
+* Supports to import from CSV
+* Supports to export tots to Excel
+* Add updating/deletion API for tot manipulation
+* Import several intereted topics with public data
+* Make the production system to work, tgl.herokuapp.com
