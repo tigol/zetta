@@ -1,0 +1,18 @@
+wb = xlsx_package.workbook
+style_shout = wb.styles.add_style sz: 16, b: true, alignment: { horizontal: :center }
+wb.add_worksheet(name: "#{@topic.name}") do |sheet|
+  property_names = []
+  @topic.properties.each do |property|
+      property_names << property.name
+  end
+
+  sheet.add_row property_names
+  
+  @tots.each do |tot|
+    properties = []
+    @topic.properties.each do |property|
+      properties << tot[property.code]
+    end
+    sheet.add_row properties
+  end
+end

@@ -3,10 +3,19 @@ class TotsController < ApplicationController
   
   respond_to :json
   respond_to :atom, :only => :index
+  respond_to :xlsx, :only => :index
 
   def index
     @tots = @topic.tots
-    respond_with @tots
+    # use respond_to temporarily due to axlsx_rails 0.1.3's default setting
+    respond_to do |format|
+      format.xlsx {
+        response.headers['Content-Disposition'] = "attachment; filename=\"#{@topic.name}.xlsx\""
+      }
+      format.all {
+        respond_with @tots
+      }
+    end    
   end
 
   def show

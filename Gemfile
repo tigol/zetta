@@ -30,6 +30,7 @@ gem 'fabrication'
 gem 'forgery', '0.5.0'
 gem 'mongoid_rails_migrations', '1.0.0'
 gem 'jbuilder', '0.9.0'
+gem 'axlsx_rails'
 
 group :development do
   gem "debugger"
