@@ -9,7 +9,7 @@ The server is a Rails based app
 
 0. Prerequisite: 1) Ruby 1.9.3 2) mongoDB 2.0.6 3) Rubygems 4) bundler
 
-1. Start mongoDB with "mongod --path=/path/to/your/db/directory"
+1. Start mongoDB with "mongod --dbpath /path/to/your/db/directory"
 
 2. Check out source code via git
 
